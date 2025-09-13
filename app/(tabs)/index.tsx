@@ -74,6 +74,15 @@ export default function HomeScreen() {
           <ThemedText type="defaultSemiBold">app-example</ThemedText>.
         </ThemedText>
       </ThemedView>
+
+      {/* イベント一覧ページへのリンク */}
+      <ThemedView style={styles.stepContainer}>
+        <Link href="/events" asChild>
+          <ThemedText style={styles.eventLinkButton} type="subtitle" accessibilityRole="button">
+            イベント一覧を見る
+          </ThemedText>
+        </Link>
+      </ThemedView>
     </ParallaxScrollView>
   );
 }
@@ -94,5 +103,19 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     position: 'absolute',
+  },
+  eventLinkButton: {
+    backgroundColor: '#A1CEDC',
+    color: '#1D3D47',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 18,
+    overflow: 'hidden',
+    marginTop: 8,
+    marginBottom: 8,
+    elevation: 2,
   },
 });
