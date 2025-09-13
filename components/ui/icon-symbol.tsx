@@ -22,6 +22,7 @@ const MAPPING = {
   'doc.text.fill': 'article',
   'video.fill': 'videocam',
   'circle.fill': 'event',
+  'person.fill': 'person', // 人間アイコンを追加
 } as IconMapping;
 
 /**
