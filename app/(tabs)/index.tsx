@@ -2,6 +2,7 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Link } from 'expo-router';
 import { ScrollView, StyleSheet, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 /**
  * お知らせデータ型
@@ -61,9 +62,10 @@ const recentVideos: Video[] = [
 
 export default function HomeScreen() {
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-      {/* 最近のお知らせ */}
-      <SectionCard title="最近のお知らせ" accent>
+    <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
+      <ScrollView contentContainerStyle={styles.contentContainer} keyboardShouldPersistTaps="handled">
+        {/* 最近のお知らせ */}
+        <SectionCard title="最近のお知らせ" accent>
         {recentNotices.map((notice) => (
           <View key={notice.id} style={styles.itemRow}>
             <ThemedText style={styles.itemTitle}>{notice.title}</ThemedText>
@@ -121,7 +123,8 @@ export default function HomeScreen() {
           </ThemedText>
         </Link>
       </SectionCard>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
