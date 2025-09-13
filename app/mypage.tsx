@@ -56,9 +56,10 @@ const styles = StyleSheet.create({
   scrollContainer: {
     flexGrow: 1,
     backgroundColor: "#FFFFFF", // 全体背景
-    justifyContent: "center",
+    justifyContent: "flex-start", // 上寄せ
     alignItems: "center",
-    paddingVertical: 32,
+    paddingTop: 40, // 上部余白をやや多めに
+    paddingBottom: 32, // 下部余白
   },
   container: {
     width: "90%",
