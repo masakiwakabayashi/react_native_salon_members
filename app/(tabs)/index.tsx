@@ -62,7 +62,7 @@ const recentVideos: Video[] = [
 
 export default function HomeScreen() {
   return (
-    <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
+    <SafeAreaView style={styles.container} edges={['left', 'right']}>
       <ScrollView contentContainerStyle={styles.contentContainer} keyboardShouldPersistTaps="handled">
         {/* 最近のお知らせ */}
         <SectionCard title="最近のお知らせ" accent>
