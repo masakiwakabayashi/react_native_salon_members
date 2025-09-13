@@ -1,5 +1,6 @@
 import React from "react";
-import { FlatList, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import type { Event } from "../../constants/event";
 
 /**
@@ -52,7 +53,7 @@ const formatDate = (isoDate: string) => {
  */
 const EventsScreen: React.FC = () => {
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={["top", "left", "right"]}>
       <Text style={styles.title}>イベント一覧</Text>
       <FlatList
         data={dummyEvents}
