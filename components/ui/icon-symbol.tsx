@@ -41,5 +41,13 @@ export function IconSymbol({
   style?: StyleProp<TextStyle>;
   weight?: SymbolWeight;
 }) {
-  return <MaterialIcons color={color} size={size} name={MAPPING[name]} style={style} />;
+  // 型安全＆undefined対策: MAPPING[name]が未定義なら"help"アイコンを表示
+  return (
+    <MaterialIcons
+      color={color}
+      size={size}
+      name={(MAPPING[name] ?? 'help') as keyof typeof MaterialIcons.glyphMap}
+      style={style}
+    />
+  );
 }
