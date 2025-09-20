@@ -1,6 +1,6 @@
-import { useRouter } from "expo-router";
+import { Link } from "expo-router";
 import React from "react";
-import { AccessibilityRole, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { AccessibilityRole, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { IconSymbol } from "../ui/icon-symbol";
 
@@ -10,14 +10,8 @@ import { IconSymbol } from "../ui/icon-symbol";
  * - 右側の人間アイコンをタップでマイページへ遷移
  */
 export const Header: React.FC = () => {
-  const router = useRouter();
-
   // アクセシビリティラベル
   const myPageLabel = "マイページへ";
-
-  const handlePress = () => {
-    router.push("/mypage");
-  };
 
   return (
     <SafeAreaView
@@ -29,16 +23,15 @@ export const Header: React.FC = () => {
         <Text style={styles.title} accessibilityRole="header" accessibilityLabel="アプリ名">
           SalonApp
         </Text>
-        <TouchableOpacity
-          onPress={handlePress}
-          style={styles.iconButton}
-          accessibilityRole={"button" as AccessibilityRole}
-          accessibilityLabel={myPageLabel}
-          activeOpacity={0.7}
-          hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-        >
-          <IconSymbol name="person.fill" size={28} color="#333333" />
-        </TouchableOpacity>
+        <Link href="/mypage" asChild>
+          <Text
+            style={styles.iconButton}
+            accessibilityRole={"button" as AccessibilityRole}
+            accessibilityLabel={myPageLabel}
+          >
+            <IconSymbol name="person.fill" size={28} color="#333333" />
+          </Text>
+        </Link>
       </View>
     </SafeAreaView>
   );
