@@ -4,6 +4,8 @@ import { AccessibilityRole, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { IconSymbol } from "../ui/icon-symbol";
 
+// MEMO: 自作のヘッダーは使わない方がいいか
+
 /**
  * 共通ヘッダーコンポーネント
  * - 画面上部に常時表示

@@ -21,6 +21,7 @@ export default function TabLayout() {
         options={{
           title: 'Home',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          headerShown: false,
         }}
       />
       <Tabs.Screen
@@ -28,6 +29,7 @@ export default function TabLayout() {
         options={{
           title: 'Notices',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="bell.fill" color={color} />,
+          headerShown: false,
         }}
       />
       <Tabs.Screen
@@ -35,6 +37,7 @@ export default function TabLayout() {
         options={{
           title: 'Columns',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="doc.text.fill" color={color} />,
+          headerShown: false,
         }}
       />
       <Tabs.Screen
@@ -42,6 +45,7 @@ export default function TabLayout() {
         options={{
           title: 'Events',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="circle.fill" color={color} />,
+          headerShown: false,
         }}
       />
       <Tabs.Screen
@@ -49,6 +53,7 @@ export default function TabLayout() {
         options={{
           title: 'Videos',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="video.fill" color={color} />,
+          headerShown: false,
         }}
       />
     </Tabs>

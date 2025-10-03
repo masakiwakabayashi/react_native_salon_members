@@ -9,7 +9,7 @@ import { useColorScheme } from '@/hooks/use-color-scheme';
 import { Header } from '../components/common/header';
 
 export const unstable_settings = {
-  anchor: '(tabs)',
+  anchor: '',
 };
 
 export default function RootLayout() {
@@ -35,12 +35,13 @@ export default function RootLayout() {
     return null;
   }
 
+  // 画面に(tabs)が表示されてしまっているのはおそらくこれが悪い
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Header />
       <Stack>
         {isLoggedIn ? (
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="" options={{ headerShown: false, title: '' }} />
         ) : (
           <Stack.Screen name="login" options={{ headerShown: false }} />
         )}
