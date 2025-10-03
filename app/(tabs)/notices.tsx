@@ -21,7 +21,7 @@ const renderNoticeCard: ListRenderItem<Notice> = ({ item }) => <NoticeCard notic
 
 export default function NoticesScreen() {
   return (
-    <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
+    <SafeAreaView style={styles.container} edges={['left', 'right']}>
       <FlatList
         data={notices}
         keyExtractor={(item) => item.id}
