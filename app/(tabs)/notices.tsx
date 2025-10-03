@@ -1,81 +1,11 @@
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
+import type { Notice } from '@/constants/notices';
+import { noticeCategoryThemes, notices } from '@/constants/notices';
+import { Link } from 'expo-router';
 import type { ListRenderItem } from 'react-native';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { FlatList, Pressable, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
-type NoticeCategory = '重要' | 'アップデート' | 'イベント' | 'メンテナンス';
-
-type Notice = {
-  id: string;
-  category: NoticeCategory;
-  title: string;
-  summary: string;
-  publishedAt: string;
-  isNew?: boolean;
-};
-
-const noticeCategoryThemes: Record<
-  NoticeCategory,
-  { accentColor: string; badgeBackground: string; badgeTextColor: string }
-> = {
-  重要: {
-    accentColor: '#FF7043',
-    badgeBackground: '#FFF3E0',
-    badgeTextColor: '#E65100',
-  },
-  アップデート: {
-    accentColor: '#1E88E5',
-    badgeBackground: '#E3F2FD',
-    badgeTextColor: '#1565C0',
-  },
-  イベント: {
-    accentColor: '#8E24AA',
-    badgeBackground: '#F3E5F5',
-    badgeTextColor: '#6A1B9A',
-  },
-  メンテナンス: {
-    accentColor: '#FFB300',
-    badgeBackground: '#FFF8E1',
-    badgeTextColor: '#FF8F00',
-  },
-};
-
-const notices: Notice[] = [
-  {
-    id: 'notice-001',
-    category: '重要',
-    title: 'コミュニティガイドライン改定のお知らせ',
-    summary:
-      '2025年10月1日よりコミュニティガイドライン第3章を更新します。該当箇所をご確認のうえ運営方針に沿ったご利用をお願いします。',
-    publishedAt: '2025-09-12T09:00:00+09:00',
-    isNew: true,
-  },
-  {
-    id: 'notice-002',
-    category: 'メンテナンス',
-    title: 'システムメンテナンス実施 (9/30 深夜)',
-    summary:
-      '9月30日 1:00-3:00に定期メンテナンスを実施します。作業中はログインおよび動画視聴がご利用いただけません。',
-    publishedAt: '2025-09-10T18:00:00+09:00',
-  },
-  {
-    id: 'notice-003',
-    category: 'アップデート',
-    title: 'プロフィール編集機能を改善しました',
-    summary:
-      'スマートフォンからプロフィール画像が変更しやすくなりました。併せて自己紹介タグの検索性能も向上しています。',
-    publishedAt: '2025-09-08T11:30:00+09:00',
-  },
-  {
-    id: 'notice-004',
-    category: 'イベント',
-    title: '10月度ウェルカムライブ配信のご案内',
-    summary:
-      '新メンバー向けウェルカムライブを10月1日 20:00より開催します。事前質問フォームからトピックを募集しています。',
-    publishedAt: '2025-09-05T12:00:00+09:00',
-  },
-];
 
 const formatDate = (isoDate: string): string => {
   const date = new Date(isoDate);
@@ -130,22 +60,30 @@ function NoticeCard({ notice }: NoticeCardProps) {
   const theme = noticeCategoryThemes[notice.category];
 
   return (
-    <ThemedView style={[styles.card, { borderLeftColor: theme.accentColor }] }>
-      <View style={styles.metaRow}>
-        <View style={[styles.categoryBadge, { backgroundColor: theme.badgeBackground }]}>
-          <ThemedText style={[styles.categoryLabel, { color: theme.badgeTextColor }]}>{notice.category}</ThemedText>
-        </View>
-        <ThemedText style={styles.noticeDate}>{formatDate(notice.publishedAt)}</ThemedText>
-        {notice.isNew && (
-          <View style={styles.newBadge}>
-            <ThemedText style={styles.newBadgeText}>NEW</ThemedText>
+    <Link
+      href={{ pathname: '/notices/[id]', params: { id: notice.id } }}
+      asChild>
+      <Pressable
+        android_ripple={{ color: '#E0E0E0' }}
+        style={({ pressed }) => [styles.cardPressable, pressed && styles.cardPressablePressed]}>
+        <ThemedView style={[styles.card, { borderLeftColor: theme.accentColor }]}>
+          <View style={styles.metaRow}>
+            <View style={[styles.categoryBadge, { backgroundColor: theme.badgeBackground }]}>
+              <ThemedText style={[styles.categoryLabel, { color: theme.badgeTextColor }]}>{notice.category}</ThemedText>
+            </View>
+            <ThemedText style={styles.noticeDate}>{formatDate(notice.publishedAt)}</ThemedText>
+            {notice.isNew && (
+              <View style={styles.newBadge}>
+                <ThemedText style={styles.newBadgeText}>NEW</ThemedText>
+              </View>
+            )}
           </View>
-        )}
-      </View>
-      <ThemedText style={styles.noticeTitle}>{notice.title}</ThemedText>
-      <ThemedText style={styles.noticeSummary}>{notice.summary}</ThemedText>
-      <ThemedText style={styles.noticeFooter}>詳しく見る &gt;</ThemedText>
-    </ThemedView>
+          <ThemedText style={styles.noticeTitle}>{notice.title}</ThemedText>
+          <ThemedText style={styles.noticeSummary}>{notice.summary}</ThemedText>
+          <ThemedText style={styles.noticeFooter}>詳しく見る &gt;</ThemedText>
+        </ThemedView>
+      </Pressable>
+    </Link>
   );
 }
 
@@ -176,6 +114,13 @@ const styles = StyleSheet.create({
   },
   separator: {
     height: 16,
+  },
+  cardPressable: {
+    borderRadius: 16,
+    overflow: 'hidden',
+  },
+  cardPressablePressed: {
+    opacity: 0.9,
   },
   card: {
     backgroundColor: '#FFFFFF',
