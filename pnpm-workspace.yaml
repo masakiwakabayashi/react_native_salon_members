@@ -1,0 +1,6 @@
+# React Native (Metro) との互換性のため、npm と同じフラットな node_modules 構成にする
+nodeLinker: hoisted
+
+# unrs-resolver はビルド済みバイナリが optionalDependencies で入るため postinstall 不要
+allowBuilds:
+  unrs-resolver: false
