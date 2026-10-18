@@ -21,39 +21,13 @@ export default function TabLayout() {
         options={{
           title: 'Home',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
-          headerShown: false,
         }}
       />
       <Tabs.Screen
-        name="notices"
+        name="explore"
         options={{
-          title: 'Notices',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="bell.fill" color={color} />,
-          headerShown: false,
-        }}
-      />
-      <Tabs.Screen
-        name="columns"
-        options={{
-          title: 'Columns',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="doc.text.fill" color={color} />,
-          headerShown: false,
-        }}
-      />
-      <Tabs.Screen
-        name="events"
-        options={{
-          title: 'Events',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="circle.fill" color={color} />,
-          headerShown: false,
-        }}
-      />
-      <Tabs.Screen
-        name="videos"
-        options={{
-          title: 'Videos',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="video.fill" color={color} />,
-          headerShown: false,
+          title: 'Explore',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
         }}
       />
     </Tabs>
