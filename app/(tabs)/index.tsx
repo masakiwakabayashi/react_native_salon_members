@@ -1,13 +1,16 @@
 import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { Platform, Pressable, StyleSheet } from 'react-native';
 
 import { HelloWave } from '@/components/hello-wave';
 import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
+import { useAuth } from '@/hooks/use-auth';
 import { Link } from 'expo-router';
 
 export default function HomeScreen() {
+  const { session, signOut } = useAuth();
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
@@ -74,6 +77,12 @@ export default function HomeScreen() {
           <ThemedText type="defaultSemiBold">app-example</ThemedText>.
         </ThemedText>
       </ThemedView>
+      <ThemedView style={styles.stepContainer}>
+        <ThemedText style={styles.account}>{session?.user.email} でログイン中</ThemedText>
+        <Pressable onPress={signOut}>
+          <ThemedText type="link">ログアウト</ThemedText>
+        </Pressable>
+      </ThemedView>
     </ParallaxScrollView>
   );
 }
@@ -87,6 +96,10 @@ const styles = StyleSheet.create({
   stepContainer: {
     gap: 8,
     marginBottom: 8,
+  },
+  account: {
+    fontSize: 14,
+    opacity: 0.7,
   },
   reactLogo: {
     height: 178,
