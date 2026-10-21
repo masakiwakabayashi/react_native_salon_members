@@ -18,7 +18,7 @@ INSERT INTO auth.identities (id, provider_id, user_id, identity_data, provider, 
 -- ユーザープロフィールのシードデータ
 INSERT INTO public.user_profile (id, user_id, description, icon_image)
 VALUES
-  ('223e4567-e89b-12d3-a456-426614174100', '123e4567-e89b-12d3-a456-426614174000', 'サロンを運営するヘアスタイリスト。', 'https://example.com/icons/user1.png'),
+  ('223e4567-e89b-12d3-a456-426614174100', '123e4567-e89b-12d3-a456-426614174000', 'プロダクトエンジニア', 'https://example.com/icons/user1.png'),
   ('223e4567-e89b-12d3-a456-426614174101', '123e4567-e89b-12d3-a456-426614174001', 'イベント企画担当。', 'https://example.com/icons/user2.png'),
   ('223e4567-e89b-12d3-a456-426614174102', '123e4567-e89b-12d3-a456-426614174002', '映像編集が得意。', 'https://example.com/icons/user3.png')
 ON CONFLICT (id) DO NOTHING;
