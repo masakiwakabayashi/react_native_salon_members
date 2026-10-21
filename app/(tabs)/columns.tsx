@@ -1,5 +1,4 @@
-import { ScrollView, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
@@ -17,7 +16,7 @@ export default function ColumnsScreen() {
   const borderColor = useThemeColor({ light: '#E0E0E0', dark: '#333' }, 'icon');
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor }]} edges={['top']}>
+    <View style={[styles.container, { backgroundColor }]}>
       <ScrollView contentContainerStyle={styles.content}>
         <ThemedText type="title">コラム</ThemedText>
         {columns.map((column) => (
@@ -30,7 +29,7 @@ export default function ColumnsScreen() {
           </ThemedView>
         ))}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 

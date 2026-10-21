@@ -1,5 +1,4 @@
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
@@ -13,7 +12,7 @@ export default function VideosScreen() {
   const thumbnailColor = useThemeColor({ light: '#D0D0D0', dark: '#353636' }, 'icon');
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor }]} edges={['top']}>
+    <View style={[styles.container, { backgroundColor }]}>
       <ScrollView contentContainerStyle={styles.content}>
         <ThemedText type="title">動画教材</ThemedText>
         {videos.map((video) => (
@@ -31,7 +30,7 @@ export default function VideosScreen() {
           </ThemedView>
         ))}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 

@@ -20,6 +20,7 @@ const MAPPING = {
   'doc.text.fill': 'article',
   'play.rectangle.fill': 'smart-display',
   'play.circle.fill': 'play-circle-filled',
+  'person.crop.circle': 'account-circle',
 } as IconMapping;
 
 /**
