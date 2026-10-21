@@ -45,7 +45,6 @@ function RootNavigator() {
     <Stack>
       <Stack.Protected guard={!!session}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
         <Stack.Screen name="profile" options={{ title: 'プロフィール', headerBackTitle: '戻る' }} />
       </Stack.Protected>
       <Stack.Protected guard={!session}>
