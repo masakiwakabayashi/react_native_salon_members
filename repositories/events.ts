@@ -1,7 +1,6 @@
 import { supabase } from '@/lib/supabase';
 
-const SUPABASE_URL = process.env.EXPO_PUBLIC_SUPABASE_URL;
-const SUPABASE_ANON_KEY = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY;
+const EVENT_COLUMNS = 'id, title, category, detail, starts_at, ends_at, location, created_by';
 
 export type EventRecord = {
   id: string;
@@ -14,19 +13,33 @@ export type EventRecord = {
   created_by: string;
 };
 
-// イベントの一覧情報を取得する関数を作成する
+// 開催日当日のイベントは開始時刻を過ぎても表示するため、端末の日付で今日の0時を基準にする
+const getStartOfToday = () => {
+  const startOfToday = new Date();
+  startOfToday.setHours(0, 0, 0, 0);
+  return startOfToday.toISOString();
+};
 
-export async function fetchEvents(): Promise<EventRecord[]> {
-
-  return [];
-}
-
-// これから開催されるイベントを開催日の早い順に取得する
-export async function fetchUpcomingEvents(limit: number): Promise<EventRecord[]> {
+// イベント画面用。開催日が今日以降のイベントを開催日の早い順にすべて取得する
+export async function fetchUpcomingEvents(): Promise<EventRecord[]> {
   const { data, error } = await supabase
     .from('events')
-    .select('id, title, category, detail, starts_at, ends_at, location, created_by')
-    .gte('starts_at', new Date().toISOString())
+    .select(EVENT_COLUMNS)
+    .gte('starts_at', getStartOfToday())
+    .order('starts_at', { ascending: true });
+
+  if (error) {
+    throw error;
+  }
+  return data;
+}
+
+// ホーム画面用。開催日が今日以降のイベントを開催日の早い順に limit 件まで取得する
+export async function fetchNextEvents(limit: number): Promise<EventRecord[]> {
+  const { data, error } = await supabase
+    .from('events')
+    .select(EVENT_COLUMNS)
+    .gte('starts_at', getStartOfToday())
     .order('starts_at', { ascending: true })
     .limit(limit);
 

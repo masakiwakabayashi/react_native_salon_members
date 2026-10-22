@@ -5,32 +5,22 @@ import { ActivityIndicator, ScrollView, StyleSheet, View } from 'react-native';
 import { EventCard } from '@/components/events/event-card';
 import { NoticeCard } from '@/components/notices/notice-card';
 import { ThemedText } from '@/components/themed-text';
-import type { Event } from '@/constants/event';
 import { notices } from '@/constants/notices';
 import { useThemeColor } from '@/hooks/use-theme-color';
-import { fetchUpcomingEvents, type EventRecord } from '@/repositories/events';
+import { fetchNextEvents, type EventRecord } from '@/repositories/events';
 
 const MAX_ITEMS = 3;
 
-// EventCard は constants/event.ts の型を受け取るため、DB のイベントをその形に変換する
-const toCardEvent = (record: EventRecord): Event => ({
-  id: record.id,
-  name: record.title,
-  date: record.starts_at,
-  location: record.location ?? '',
-  description: record.detail ?? '',
-});
-
 export default function HomeScreen() {
   const backgroundColor = useThemeColor({}, 'background');
-  const [upcomingEvents, setUpcomingEvents] = useState<Event[]>([]);
+  const [upcomingEvents, setUpcomingEvents] = useState<EventRecord[]>([]);
   const [isLoadingEvents, setIsLoadingEvents] = useState(true);
 
   useEffect(() => {
     let cancelled = false;
-    fetchUpcomingEvents(MAX_ITEMS)
+    fetchNextEvents(MAX_ITEMS)
       .then((records) => {
-        if (!cancelled) setUpcomingEvents(records.map(toCardEvent));
+        if (!cancelled) setUpcomingEvents(records);
       })
       .catch((error) => {
         console.warn('イベントの取得に失敗しました', error);
