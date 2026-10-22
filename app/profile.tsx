@@ -30,12 +30,16 @@ export default function ProfileScreen() {
         </View>
         <ThemedView style={[styles.card, { borderColor }]}>
           <View style={styles.field}>
+            <ThemedText style={styles.label}>名前</ThemedText>
+            <ThemedText>{profile?.name || '未設定'}</ThemedText>
+          </View>
+          <View style={styles.field}>
             <ThemedText style={styles.label}>メールアドレス</ThemedText>
             <ThemedText>{session?.user.email}</ThemedText>
           </View>
           <View style={styles.field}>
-            <ThemedText style={styles.label}>自己紹介</ThemedText>
-            <ThemedText>{profile?.description || '未設定'}</ThemedText>
+            <ThemedText style={styles.label}>期</ThemedText>
+            <ThemedText>{profile?.cohort ? `${profile.cohort}期生` : '未設定'}</ThemedText>
           </View>
         </ThemedView>
         {/* ログアウトすると AuthProvider のセッション更新で自動的にログイン画面へ切り替わる */}

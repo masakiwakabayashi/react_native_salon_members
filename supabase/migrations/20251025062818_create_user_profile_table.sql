@@ -2,8 +2,10 @@
 create table "public"."user_profile" (
     "id" uuid not null default gen_random_uuid(),
     "user_id" uuid not null,
-    "description" text,
-    "icon_image" text
+    "name" text,
+    "icon_image" text,
+    -- 何期生か（1期生なら 1）。どの期にも属さないユーザーは null
+    "cohort" integer check ("cohort" > 0)
 );
 
 CREATE INDEX idx_user_profile_user_id ON public.user_profile USING btree (user_id);
