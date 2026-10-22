@@ -12,6 +12,8 @@ import { useUserProfile } from '@/hooks/use-user-profile';
 
 // アップロードする画像の一辺のサイズ（px）。アイコン表示には十分な大きさに縮小して容量を抑える
 const ICON_IMAGE_SIZE = 512;
+// アップロードできる画像の容量の上限（バイト）。avatars バケットの file_size_limit と合わせる
+const MAX_ICON_IMAGE_BYTES = 1024 * 1024;
 
 export default function ProfileScreen() {
   const { session, signOut } = useAuth();
@@ -32,6 +34,12 @@ export default function ProfileScreen() {
       context.resize({ width: ICON_IMAGE_SIZE, height: ICON_IMAGE_SIZE });
       const image = await context.renderAsync();
       const resized = await image.saveAsync({ format: SaveFormat.JPEG, compress: 0.8 });
+
+      const { size } = await fetch(resized.uri).then((response) => response.blob());
+      if (size > MAX_ICON_IMAGE_BYTES) {
+        Alert.alert('画像のサイズが大きすぎます', '1MB以下になるよう、別の画像を選んでください。');
+        return;
+      }
       await updateIconImage(resized.uri);
     } catch (error) {
       console.warn('プロフィール画像の更新に失敗しました', error);

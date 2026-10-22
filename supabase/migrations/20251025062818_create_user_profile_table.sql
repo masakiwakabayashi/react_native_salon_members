@@ -83,7 +83,7 @@ using (user_id = auth.uid());
 
 -- プロフィール画像の非公開バケット。表示には署名付きURLを使う
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
-values ('avatars', 'avatars', false, 5242880, array['image/jpeg']);
+values ('avatars', 'avatars', false, 1048576, array['image/jpeg']);
 
 -- 画像はログイン中のメンバーなら誰でも閲覧でき、アップロード・削除は自分のフォルダ（{user_id}/）だけ
 create policy "メンバーはプロフィール画像を閲覧できる"
