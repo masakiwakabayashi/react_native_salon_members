@@ -7,6 +7,7 @@ import 'react-native-reanimated';
 
 import { AuthProvider, useAuth } from '@/hooks/use-auth';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { UserProfileProvider } from '@/hooks/use-user-profile';
 
 export const unstable_settings = {
   anchor: '(tabs)',
@@ -21,7 +22,9 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <AuthProvider>
-        <RootNavigator />
+        <UserProfileProvider>
+          <RootNavigator />
+        </UserProfileProvider>
       </AuthProvider>
       <StatusBar style="auto" />
     </ThemeProvider>

@@ -7,7 +7,7 @@ import { useThemeColor } from '@/hooks/use-theme-color';
 import { useUserProfile } from '@/hooks/use-user-profile';
 
 export function AppHeader() {
-  const { profile } = useUserProfile();
+  const { iconUrl } = useUserProfile();
   const router = useRouter();
   const insets = useSafeAreaInsets();
 
@@ -25,7 +25,7 @@ export function AppHeader() {
         hitSlop={8}
         accessibilityRole="button"
         accessibilityLabel="プロフィールを表示">
-        <ProfileIcon uri={profile?.icon_image} size={28} />
+        <ProfileIcon uri={iconUrl} size={28} />
       </Pressable>
     </View>
   );
