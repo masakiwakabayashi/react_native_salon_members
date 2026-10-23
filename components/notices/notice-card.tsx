@@ -2,8 +2,9 @@ import { StyleSheet, View } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { noticeCategoryThemes, type Notice } from '@/constants/notices';
+import { getNoticeCategoryTheme } from '@/constants/notices';
 import { useThemeColor } from '@/hooks/use-theme-color';
+import type { NotificationRecord } from '@/repositories/notifications';
 
 const formatDate = (iso: string) => {
   const date = new Date(iso);
@@ -11,23 +12,24 @@ const formatDate = (iso: string) => {
   return `${date.getFullYear()}/${pad(date.getMonth() + 1)}/${pad(date.getDate())}`;
 };
 
-export function NoticeCard({ notice }: { notice: Notice }) {
+export function NoticeCard({ notice }: { notice: NotificationRecord }) {
   const borderColor = useThemeColor({ light: '#E0E0E0', dark: '#333' }, 'icon');
-  const theme = noticeCategoryThemes[notice.category];
+  const theme = notice.category ? getNoticeCategoryTheme(notice.category) : null;
 
   return (
     <ThemedView style={[styles.card, { borderColor }]}>
       <View style={styles.header}>
-        <View style={[styles.badge, { backgroundColor: theme.badgeBackground }]}>
-          <ThemedText style={[styles.badgeText, { color: theme.badgeTextColor }]}>
-            {notice.category}
-          </ThemedText>
-        </View>
-        <ThemedText style={styles.meta}>{formatDate(notice.publishedAt)}</ThemedText>
-        {notice.isNew && <ThemedText style={styles.newLabel}>NEW</ThemedText>}
+        {notice.category && theme && (
+          <View style={[styles.badge, { backgroundColor: theme.badgeBackground }]}>
+            <ThemedText style={[styles.badgeText, { color: theme.badgeTextColor }]}>
+              {notice.category}
+            </ThemedText>
+          </View>
+        )}
+        <ThemedText style={styles.meta}>{formatDate(notice.created_at)}</ThemedText>
       </View>
       <ThemedText type="defaultSemiBold">{notice.title}</ThemedText>
-      <ThemedText style={styles.summary}>{notice.summary}</ThemedText>
+      {notice.detail && <ThemedText style={styles.summary}>{notice.detail}</ThemedText>}
     </ThemedView>
   );
 }
@@ -57,11 +59,6 @@ const styles = StyleSheet.create({
   meta: {
     fontSize: 13,
     opacity: 0.7,
-  },
-  newLabel: {
-    fontSize: 12,
-    fontWeight: 'bold',
-    color: '#E65100',
   },
   summary: {
     fontSize: 14,

@@ -4,6 +4,7 @@ import React from 'react';
 import { AppHeader } from '@/components/app-header';
 import { HapticTab } from '@/components/haptic-tab';
 import { IconSymbol } from '@/components/ui/icon-symbol';
+import { TabLabels } from '@/constants/tab-labels';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
@@ -20,35 +21,35 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: process.env.EXPO_PUBLIC_TAB_LABEL_HOME || 'ホーム',
+          title: TabLabels.home,
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
         }}
       />
       <Tabs.Screen
         name="notices"
         options={{
-          title: process.env.EXPO_PUBLIC_TAB_LABEL_NOTICES || 'お知らせ',
+          title: TabLabels.notices,
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="bell.fill" color={color} />,
         }}
       />
       <Tabs.Screen
         name="events"
         options={{
-          title: process.env.EXPO_PUBLIC_TAB_LABEL_EVENTS || 'イベント',
+          title: TabLabels.events,
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="calendar" color={color} />,
         }}
       />
       <Tabs.Screen
         name="columns"
         options={{
-          title: process.env.EXPO_PUBLIC_TAB_LABEL_COLUMNS || 'コラム',
+          title: TabLabels.columns,
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="doc.text.fill" color={color} />,
         }}
       />
       <Tabs.Screen
         name="videos"
         options={{
-          title: process.env.EXPO_PUBLIC_TAB_LABEL_VIDEOS || '動画教材',
+          title: TabLabels.videos,
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="play.rectangle.fill" color={color} />,
         }}
       />

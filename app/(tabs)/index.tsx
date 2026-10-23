@@ -1,13 +1,13 @@
-import { Link, type Href } from 'expo-router';
-import { useEffect, useState, type ReactNode } from 'react';
+import { Link, useFocusEffect, type Href } from 'expo-router';
+import { useCallback, useState, type ReactNode } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet, View } from 'react-native';
 
 import { EventCard } from '@/components/events/event-card';
 import { NoticeCard } from '@/components/notices/notice-card';
 import { ThemedText } from '@/components/themed-text';
-import { notices } from '@/constants/notices';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { fetchNextEvents, type EventRecord } from '@/repositories/events';
+import { fetchLatestNotifications, type NotificationRecord } from '@/repositories/notifications';
 
 const MAX_ITEMS = 3;
 
@@ -15,27 +15,38 @@ export default function HomeScreen() {
   const backgroundColor = useThemeColor({}, 'background');
   const [upcomingEvents, setUpcomingEvents] = useState<EventRecord[]>([]);
   const [isLoadingEvents, setIsLoadingEvents] = useState(true);
+  const [latestNotices, setLatestNotices] = useState<NotificationRecord[]>([]);
+  const [isLoadingNotices, setIsLoadingNotices] = useState(true);
 
-  useEffect(() => {
-    let cancelled = false;
-    fetchNextEvents(MAX_ITEMS)
-      .then((records) => {
-        if (!cancelled) setUpcomingEvents(records);
-      })
-      .catch((error) => {
-        console.warn('イベントの取得に失敗しました', error);
-      })
-      .finally(() => {
-        if (!cancelled) setIsLoadingEvents(false);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  const latestNotices = [...notices]
-    .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
-    .slice(0, MAX_ITEMS);
+  // タブを開くたびに取得し直し、DB の更新を反映する。再取得中は前回の内容を表示したままにする
+  useFocusEffect(
+    useCallback(() => {
+      let cancelled = false;
+      fetchNextEvents(MAX_ITEMS)
+        .then((records) => {
+          if (!cancelled) setUpcomingEvents(records);
+        })
+        .catch((error) => {
+          console.warn('イベントの取得に失敗しました', error);
+        })
+        .finally(() => {
+          if (!cancelled) setIsLoadingEvents(false);
+        });
+      fetchLatestNotifications(MAX_ITEMS)
+        .then((records) => {
+          if (!cancelled) setLatestNotices(records);
+        })
+        .catch((error) => {
+          console.warn('お知らせの取得に失敗しました', error);
+        })
+        .finally(() => {
+          if (!cancelled) setIsLoadingNotices(false);
+        });
+      return () => {
+        cancelled = true;
+      };
+    }, [])
+  );
 
   return (
     <View style={[styles.container, { backgroundColor }]}>
@@ -50,7 +61,9 @@ export default function HomeScreen() {
           )}
         </Section>
         <Section title="新着のお知らせ" href="/notices">
-          {latestNotices.length > 0 ? (
+          {isLoadingNotices ? (
+            <ActivityIndicator />
+          ) : latestNotices.length > 0 ? (
             latestNotices.map((notice) => <NoticeCard key={notice.id} notice={notice} />)
           ) : (
             <ThemedText style={styles.empty}>お知らせはありません</ThemedText>
